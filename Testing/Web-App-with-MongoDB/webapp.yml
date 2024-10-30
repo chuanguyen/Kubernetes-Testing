@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:
+    app: webapp
+    app.kubernetes.io/name: webapp
+    app.kubernetes.io/instance: ""
+    app.kubernetes.io/version: "1"
+    app.kubernetes.io/component: webapp
+    app.kubernetes.io/part-of: ""
+    app.kubernetes.io/managed-by: ""
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+        app.kubernetes.io/name: webapp
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/version: "1"
+        app.kubernetes.io/component: webapp
+        app.kubernetes.io/part-of: ""
+        app.kubernetes.io/managed-by: ""
+    spec:
+      containers:
+        - name: mongodb
+          image: nanajanashia/k8s-demo-app:v1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets # Name of the secret resource
+                  key: mongodb-user
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets # Name of the secret resource
+                  key: mongodb-password
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-config
+                  key: mongo-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service # Acts as the endpoint for the service
+spec:
+  type: NodePort
+  selector:
+    app: webapp # Used to find pods that the service should redirect to
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30100
