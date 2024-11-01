@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/part-of: ""
     app.kubernetes.io/managed-by: ""
 spec:
-  replicas: 1
+  replicas: 6
   selector:
     matchLabels:
       app: webapp
@@ -27,6 +27,57 @@ spec:
         app.kubernetes.io/part-of: ""
         app.kubernetes.io/managed-by: ""
     spec:
+      # ### Node Selection
+      # nodeSelector:
+      #   node-select-test: "true"
+      ### Node Affinity
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: node-select-test
+      #               operator: In
+      #               values:
+      #                 - "true"
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 25
+      #         preference:
+      #           matchExpressions:
+      #             - key: node-select-preferred
+      #               operator: In
+      #               values:
+      #                 - "yes"
+      #       - weight: 75
+      #         preference:
+      #           matchExpressions:
+      #             - key: node-select-preferred
+      #               operator: DoesNotExist
+      #             - key: node-select-preferred-2
+      #               operator: In
+      #               values:
+      #                 - "yes"
+      # ### Pod Affinity & Anti-Affinity
+      # # Don't run on master nodes
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: node-role.kubernetes.io/control-plane
+      #               operator: NotIn
+      #               values:
+      #                 - "true"
+      # # Don't run webapps on the same nodes with the mongoDB pods
+      # podAntiAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     - labelSelector:
+      #         matchExpressions:
+      #           - key: app
+      #             operator: In
+      #             values:
+      #               - "mongodb"
+      #       topologyKey: "topology.kubernetes.io/hostname"
       containers:
         - name: mongodb
           image: nanajanashia/k8s-demo-app:v1.0
