@@ -78,6 +78,12 @@ spec:
       #             values:
       #               - "mongodb"
       #       topologyKey: "topology.kubernetes.io/hostname"
+      ### Tolerations
+      # tolerations:
+      #   - key: "compute"
+      #     value: "gpu"
+      #     operator: "Equal"
+      #     effect: "NoSchedule"
       containers:
         - name: mongodb
           image: nanajanashia/k8s-demo-app:v1.0
