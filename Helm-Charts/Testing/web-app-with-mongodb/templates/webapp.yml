@@ -4,28 +4,28 @@ kind: Deployment
 metadata:
   name: webapp-deployment
   labels:
-    app: webapp
+    app: "{{ .Values.appName }}"
     app.kubernetes.io/name: webapp
     app.kubernetes.io/instance: ""
     app.kubernetes.io/version: "1"
     app.kubernetes.io/component: webapp
     app.kubernetes.io/part-of: ""
-    app.kubernetes.io/managed-by: ""
+    app.kubernetes.io/managed-by: "Helm"
 spec:
   replicas: 6
   selector:
     matchLabels:
-      app: webapp
+      app: "{{ .Values.appName }}"
   template:
     metadata:
       labels:
-        app: webapp
+        app: "{{ .Values.appName }}"
         app.kubernetes.io/name: webapp
         app.kubernetes.io/instance: ""
         app.kubernetes.io/version: "1"
         app.kubernetes.io/component: webapp
         app.kubernetes.io/part-of: ""
-        app.kubernetes.io/managed-by: ""
+        app.kubernetes.io/managed-by: "Helm"
     spec:
       # ### Node Selection
       # nodeSelector:
@@ -110,6 +110,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: webapp-service # Acts as the endpoint for the service
+  labels:
+    app: "{{ .Values.appName }}"
 spec:
   type: ClusterIP
   selector:
@@ -146,6 +148,8 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: stripprefix-webapp
+  labels:
+    app: "{{ .Values.appName }}"
 spec:
   stripPrefix:
     prefixes:
@@ -157,9 +161,8 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: ingress-webapp
-  namespace: default
   labels:
-    app: webapp
+    app: "{{ .Values.appName }}"
 spec:
   entryPoints:
     - web
@@ -179,4 +182,3 @@ spec:
           port: 3000
       middlewares:
         - name: "stripprefix-webapp"
-          namespace: "default"

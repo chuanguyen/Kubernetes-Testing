@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: mongodb-deployment
   labels:
-    app: mongo
+    app: "{{ .Values.appNameMongo }}"
     app.kubernetes.io/name: mongodb
     app.kubernetes.io/instance: ""
     app.kubernetes.io/version: "1"
@@ -15,17 +15,17 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: "{{ .Values.appNameMongo }}"
   template:
     metadata:
       labels:
-        app: mongodb
+        app: "{{ .Values.appNameMongo }}"
         app.kubernetes.io/name: mongodb
         app.kubernetes.io/instance: ""
         app.kubernetes.io/version: "1"
         app.kubernetes.io/component: database
         app.kubernetes.io/part-of: "MongoDB"
-        app.kubernetes.io/managed-by: ""
+        app.kubernetes.io/managed-by: "Helm"
     spec:
       containers:
         - name: mongodb
@@ -50,7 +50,7 @@ metadata:
   name: mongodb-service # Acts as the endpoint for the service
 spec:
   selector:
-    app: mongodb # Used to find pods that the service should redirect to
+    app: "{{ .Values.appNameMongo }}" # Used to find pods that the service should redirect to
   ports:
     - protocol: TCP
       port: 27017

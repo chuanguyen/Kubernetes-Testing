@@ -9,6 +9,6 @@ metadata:
     app.kubernetes.io/version: "1"
     app.kubernetes.io/component: ""
     app.kubernetes.io/part-of: "MongoDB"
-    app.kubernetes.io/managed-by: ""
+    app.kubernetes.io/managed-by: "Helm"
 data:
   mongo-url: "mongodb-service" # Refers to the name of the Service component
