@@ -36,12 +36,12 @@ spec:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: mongodb-secrets # Name of the secret resource
+                  name: webapp-mongodb-secrets # Name of the secret resource
                   key: mongodb-user
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mongodb-secrets # Name of the secret resource
+                  name: webapp-mongodb-secrets # Name of the secret resource
                   key: mongodb-password
 ---
 apiVersion: v1

@@ -93,12 +93,12 @@ spec:
             - name: USER_NAME
               valueFrom:
                 secretKeyRef:
-                  name: mongodb-secrets # Name of the secret resource
+                  name: webapp-mongodb-secrets # Name of the secret resource
                   key: mongodb-user
             - name: USER_PWD
               valueFrom:
                 secretKeyRef:
-                  name: mongodb-secrets # Name of the secret resource
+                  name: webapp-mongodb-secrets # Name of the secret resource
                   key: mongodb-password
             - name: DB_URL
               valueFrom:
