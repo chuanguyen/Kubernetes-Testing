@@ -2,13 +2,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mongodb-config
+  name: "{{ .Values.configMaps.mongo.name }}"
+  namespace: "{{ .Values.namespace }}"
   labels:
-    app.kubernetes.io/name: mongodb-config
+    app.kubernetes.io/name: "{{ .Values.configMaps.mongo.name }}"
     app.kubernetes.io/instance: ""
     app.kubernetes.io/version: "1"
     app.kubernetes.io/component: ""
     app.kubernetes.io/part-of: "MongoDB"
     app.kubernetes.io/managed-by: "Helm"
 data:
-  mongo-url: "mongodb-service" # Refers to the name of the Service component
+  mongo-url: "{{ .Values.mongoServiceName }}" # Refers to the name of the Service component

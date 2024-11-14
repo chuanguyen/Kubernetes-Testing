@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb-deployment
+  namespace: "{{ .Values.namespace }}"
   labels:
     app: "{{ .Values.appNameMongo }}"
     app.kubernetes.io/name: mongodb
@@ -18,6 +19,7 @@ spec:
       app: "{{ .Values.appNameMongo }}"
   template:
     metadata:
+      namespace: "{{ .Values.namespace }}"
       labels:
         app: "{{ .Values.appNameMongo }}"
         app.kubernetes.io/name: mongodb
@@ -29,25 +31,26 @@ spec:
     spec:
       containers:
         - name: mongodb
-          image: mongo:5.0
+          image: "{{ .Values.images.mongo.name }}:{{ .Values.images.mongo.tag }}"
           ports:
             - containerPort: 27017
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: webapp-mongodb-secrets # Name of the secret resource
+                  name: "{{ .Values.externalSecrets.mongo.target_name }}" # Name of the secret resource
                   key: mongodb-user
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: webapp-mongodb-secrets # Name of the secret resource
+                  name: "{{ .Values.externalSecrets.mongo.target_name }}" # Name of the secret resource
                   key: mongodb-password
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-service # Acts as the endpoint for the service
+  name: "{{ .Values.mongoServiceName }}" # Acts as the endpoint for the service
+  namespace: "{{ .Values.namespace }}"
 spec:
   selector:
     app: "{{ .Values.appNameMongo }}" # Used to find pods that the service should redirect to

@@ -1,2 +1,25 @@
+namespace: "default"
+
 appName: "webapp"
 appNameMongo: "mongo"
+
+configMaps:
+  mongo:
+    name: "mongodb-config"
+
+externalSecrets:
+  mongo:
+    name: "webapp-mongodb-secrets"
+    secretStoreRef_name: "vault-backend-secret-store"
+    secretStoreRef_kind: "ClusterSecretStore"
+    target_name: "webapp-mongodb-secrets"
+
+mongoServiceName: "mongodb-service"
+
+images:
+  mongo:
+    name: "mongo"
+    tag: "5.0"
+  webapp:
+    name: "nanajanashia/k8s-demo-app"
+    tag: "v1.0"

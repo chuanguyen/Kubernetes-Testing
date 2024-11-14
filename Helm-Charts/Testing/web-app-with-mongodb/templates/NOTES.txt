@@ -1,0 +1,3 @@
+CUSTOM NOTE TO ADD DETAILS POST DEPLOYMENT
+
+Environment: "{{ .Values.namespace }}"
