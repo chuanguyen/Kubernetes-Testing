@@ -1,0 +1,13 @@
+namespace: "default"
+
+externalSecrets:
+  mosquitto:
+    name: "mosquitto-secrets"
+    secretStoreRef_name: "vault-backend-secret-store"
+    secretStoreRef_kind: "ClusterSecretStore"
+    target_name: "mosquitto-secrets"
+
+mqtt_config_log_dest: "stdout"
+mqtt_config_log_type: "all"
+mqtt_config_log_timestamp: "true"
+mqtt_config_listener: "9001"
