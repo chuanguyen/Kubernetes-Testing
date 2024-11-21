@@ -1,0 +1,11 @@
+# If the multi-target mode is enabled, this value will be ignored.
+# [mongodb[+srv]://][user:pass@]host1[:port1][,host2[:port2],...][/database][?options]
+mongodb:
+  uri: "mongodb://mongodb-prom-service:27017"
+
+serviceMonitor:
+  enabled: true
+  additionalLabels:
+    # Label found by evaluating the release
+    # label in the existing service monitor resources
+    release: prometheus-release
