@@ -1,0 +1,70 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: "argocd-repo-my-local-testing"
+spec:
+  refreshInterval: "15s"
+  secretStoreRef:
+    name: "vault-backend-cluster-secret-store"
+    kind: "ClusterSecretStore"
+  target:
+    name: "argocd-repo-my-local-testing"
+    creationPolicy: Owner
+    template:
+          type: Secret
+          metadata:
+            annotations: {}
+            labels: 
+              argocd.argoproj.io/secret-type: repository
+  data:
+    - secretKey: "type"
+      remoteRef:
+        key: "kv/argocd/repositories/my-local-testing"
+        property: "type"
+    - secretKey: "url"
+      remoteRef:
+        key: "kv/argocd/repositories/my-local-testing"
+        property: "url"
+    - secretKey: "insecure"
+      remoteRef:
+        key: "kv/argocd/repositories/my-local-testing"
+        property: "insecure"
+
+### Repository Credential Templates
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: "argocd-repo-bitbucket-creds"
+spec:
+  refreshInterval: "15s"
+  secretStoreRef:
+    name: "vault-backend-cluster-secret-store"
+    kind: "ClusterSecretStore"
+  target:
+    name: "argocd-repo-bitbucket-creds"
+    creationPolicy: Owner
+    template:
+          type: Secret
+          metadata:
+            annotations: {}
+            labels: 
+              argocd.argoproj.io/secret-type: repo-creds
+  data:
+    - secretKey: "type"
+      remoteRef:
+        key: "kv/argocd/repositories/creds-bitbucket"
+        property: "type"
+    - secretKey: "url"
+      remoteRef:
+        key: "kv/argocd/repositories/creds-bitbucket"
+        property: "url"
+    - secretKey: "sshPrivateKey"
+      remoteRef:
+        key: "kv/argocd/repositories/creds-bitbucket"
+        property: "sshPrivateKey"
+    - secretKey: "insecure"
+      remoteRef:
+        key: "kv/argocd/repositories/creds-bitbucket"
+        property: "insecure"

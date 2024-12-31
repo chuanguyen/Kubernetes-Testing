@@ -1,0 +1,9 @@
+# Overrides the dependency chart's values
+argo-cd:
+  notifications:
+    enabled: false
+  server:
+    extraArgs:
+      - --insecure
+  crds: 
+    install: false
